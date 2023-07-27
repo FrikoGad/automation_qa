@@ -50,7 +50,7 @@ class CheckBoxPage(BasePage):
         checked_list = self.element_is_present(self.locators.CHECKED_ITEMS)
         data = []
         for box in checked_list:
-            title_item = box.find_element_by_xpath(self.locators.TITLE_ITEM)
+            title_item = box.find_element("xpath", self.locators.TITLE_ITEM)
             data.append(title_item.text)
         return str(data).replace(' ', '').replace('doc', '').replace('.', '').lower()
 
@@ -111,6 +111,14 @@ class WebTablePage(BasePage):
 
     def check_search_people(self):
         delete_button = self.element_is_present(self.locators.DELETE_BUTTON)
-        row = delete_button.find_element_by_xpath(self.locators.ROW_PARENT)
+        row = delete_button.find_element("xpath", self.locators.ROW_PARENT)
         return row.text.splitlines()
 
+    def update_person_info(self):
+        person_info = next(generated_person())
+        age = person_info.age
+        self.element_is_visible(self.locators.UPDATE_BUTTON).click()
+        self.element_is_visible(self.locators.AGE_INPUT).clear()
+        self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
+        self.element_is_visible(self.locators.SUBMIT).click()
+        return str(age)
