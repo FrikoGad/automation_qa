@@ -1,6 +1,4 @@
 import random
-import time
-
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
     UploadAnDownloadPage, DynamicPropertiesPage
 
@@ -145,3 +143,4 @@ class TestDynamicPropertiesPage:
         dynamic_properties_page.open()
         appear = dynamic_properties_page.check_appear_of_button()
         assert appear is True, 'button did not appear after 5 second'
+
