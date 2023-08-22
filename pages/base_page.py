@@ -43,3 +43,20 @@ class BasePage:
         action.context_click(element)
         action.perform()
 
+    def switch_to_window(self, locator):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        text_title = self.element_is_present(locator).text
+        return text_title
+
+    def switch_to_alert(self, timeout=6, is_accepted=True, data=None):
+        alert = wait(self.driver, timeout).until(EC.alert_is_present())
+        try:
+            if data:
+                ...
+            alert_text = alert.text
+        finally:
+            if is_accepted:
+                alert.accept()
+            else:
+                alert.dismiss()
+        return alert_text
