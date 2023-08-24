@@ -60,3 +60,7 @@ class BasePage:
             else:
                 alert.dismiss()
         return alert_text
+
+    def switch_to_frame(self, frame, text):
+        self.driver.switch_to.frame(self.element_is_present(frame))
+        return self.element_is_visible(text).text
