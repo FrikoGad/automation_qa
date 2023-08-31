@@ -1,6 +1,10 @@
-from selenium.common import TimeoutException
+import random
 
-from locators.widgets_page_locators import AccordianPageLocators
+from selenium.common import TimeoutException
+from selenium.webdriver import Keys
+
+from generator.generator import generated_color
+from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators
 from pages.base_page import BasePage
 
 
@@ -27,3 +31,24 @@ class AccordianPage(BasePage):
             section_title.click()
             section_content = self.element_is_visible(accordian[accordian_num]['content']).text
         return [section_title.text, len(section_content)]
+
+
+class AutoCompletePage(BasePage):
+    locators = AutoCompletePageLocators()
+
+    def fill_input_multi(self):
+        colors = random.sample(next(generated_color()).color_name, k=random.randint(2, 5))
+        for color in colors:
+            input_multi = self.element_is_visible(self.locators.MULTI_INPUT)
+            input_multi.send_keys(color)
+            input_multi.send_keys(Keys.ENTER)
+        return colors
+
+    def remove_value_from_multi(self):
+        count_value_before = len(self.elements_are_visible(self.locators.MULTI_VALUE))
+        remove_button_list = self.element_is_visible(self.locators.MULTI_VALUE_REMOVE)
+        for value in remove_button_list:
+            value.click()
+            break
+        count_value_after = len(self.element_is_visible(self.locators.MULTI_VALUE))
+        return count_value_before, count_value_after

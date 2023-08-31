@@ -1,4 +1,4 @@
-from pages.widgets_page import AccordianPage
+from pages.widgets_page import AccordianPage, AutoCompletePage
 
 
 class TestWidgets:
@@ -13,3 +13,16 @@ class TestWidgets:
             assert first_title == 'What is Lorem Ipsum?' and first_content > 0
             assert second_title == 'Where does it come from?' and second_content > 0
             assert third_title == 'Why do we use it?' and third_content > 0
+
+    class TestAutoCompletePage:
+
+        def test_fill_multi_autocomplete(self, driver):
+            autocomplete_page = AutoCompletePage(driver, "https://demoqa.com/auto-complete")
+            autocomplete_page.open()
+            autocomplete_page.fill_input_multi()
+
+        def test_remove_value_from_multi(self, driver):
+            autocomplete_page = AutoCompletePage(driver, "https://demoqa.com/auto-complete")
+            autocomplete_page.open()
+            autocomplete_page.fill_input_multi()
+            autocomplete_page.remove_value_from_multi()
