@@ -45,10 +45,36 @@ class AutoCompletePage(BasePage):
         return colors
 
     def remove_value_from_multi(self):
-        count_value_before = len(self.elements_are_visible(self.locators.MULTI_VALUE))
-        remove_button_list = self.element_is_visible(self.locators.MULTI_VALUE_REMOVE)
+        count_value_before = len(self.elements_are_present(self.locators.MULTI_VALUE))
+        remove_button_list = self.elements_are_visible(self.locators.MULTI_VALUE_REMOVE)
         for value in remove_button_list:
             value.click()
             break
-        count_value_after = len(self.element_is_visible(self.locators.MULTI_VALUE))
+        count_value_after = len(self.elements_are_present(self.locators.MULTI_VALUE))
         return count_value_before, count_value_after
+
+    def remove_all_values_from_multi(self):
+        remove_all_values_button = self.element_is_visible(self.locators.MULTI_ALL_VALUES_REMOVE)
+        remove_all_values_button.click()
+        try:
+            return len(self.element_is_present(self.locators.MULTI_VALUE))
+        except TimeoutException:
+            return []
+
+    def check_color_in_multi(self):
+        color_list = self.elements_are_present(self.locators.MULTI_VALUE)
+        colors = []
+        for color in color_list:
+            colors.append(color.text)
+        return colors
+
+    def fill_input_single(self):
+        color = random.sample(next(generated_color()).color_name, k=1)
+        input_single = self.element_is_visible(self.locators.SINGLE_INPUT)
+        input_single.send_keys(color)
+        input_single.send_keys(Keys.ENTER)
+        return color[0]
+
+    def check_color_in_single(self):
+        color = self.element_is_visible(self.locators.SINGLE_VALUE)
+        return color.text
