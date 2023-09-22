@@ -1,6 +1,7 @@
 import random
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
     UploadAnDownloadPage, DynamicPropertiesPage
+from pages.interactions_page import ResizablePage
 
 
 class TestElements:
@@ -144,3 +145,14 @@ class TestDynamicPropertiesPage:
         appear = dynamic_properties_page.check_appear_of_button()
         assert appear is True, 'button did not appear after 5 second'
 
+
+class TestResizablePage:
+
+    def test_resizable(self, driver):
+        resizable_page = ResizablePage(driver, 'https://demoqa.com/resizable')
+        resizable_page.open()
+        max_box, min_box = resizable_page.change_size_resizable_box()
+        max_resize, min_resize = resizable_page.change_size_resizable()
+        assert max_box == ('500px', '300px'), "maximum size not equal to '500px', '300px'"
+        assert min_box == ('150px', '150px'), "minimum size not equal to '150px', '150px'"
+        assert min_resize != max_resize, "resizable has not been changed"
