@@ -173,5 +173,3 @@ class DraggablePage(BasePage):
         left_position_before = self.get_left_position(position[0])
         left_position_after = self.get_left_position(position[1])
         return [top_position_before, top_position_after], [left_position_before, left_position_after]
-
-
